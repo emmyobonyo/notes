@@ -7,7 +7,7 @@ import {nanoid} from "nanoid"
 import './App.css'
 
 export default function App() {
-    const [notes, setNotes] = React.useState([])
+    const [notes, setNotes] = React.useState(JSON.parse(localStorage.getItem('notes')) || [])
     const [currentNoteId, setCurrentNoteId] = React.useState(
         (notes[0] && notes[0].id) || ""
     )
@@ -18,6 +18,7 @@ export default function App() {
             body: "# Type your markdown note's title here"
         }
         setNotes(prevNotes => [newNote, ...prevNotes])
+        localStorage.setItem('notes', JSON.stringify(notes))
         setCurrentNoteId(newNote.id)
     }
     

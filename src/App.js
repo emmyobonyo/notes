@@ -15,7 +15,7 @@ export default function App() {
     React.useEffect(() => {
       localStorage.setItem('notes', JSON.stringify(notes))
     }, [notes])
-    
+
     function createNewNote() {
         const newNote = {
             id: nanoid(),
@@ -24,7 +24,7 @@ export default function App() {
         setNotes(prevNotes => [newNote, ...prevNotes])
         setCurrentNoteId(newNote.id)
     }
-    
+
     function updateNote(text) {
         setNotes(oldNotes => oldNotes.map(oldNote => {
             return oldNote.id === currentNoteId
@@ -32,13 +32,13 @@ export default function App() {
                 : oldNote
         }))
     }
-    
+
     function findCurrentNote() {
         return notes.find(note => {
             return note.id === currentNoteId
         }) || notes[0]
     }
-    
+
     return (
         <main>
         {
@@ -74,7 +74,7 @@ export default function App() {
                     Create one now
                 </button>
             </div>
-            
+
         }
         </main>
     )

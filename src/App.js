@@ -46,6 +46,12 @@ export default function App() {
         }) || notes[0]
     }
 
+    function deleteNote(event, noteId) {
+        event.stopPropagation()
+        console.log('deleted note', noteId)
+        setNotes((oldNotes) => oldNotes.filter(oldNote => oldNote.id != noteId))
+    }
+
     return (
         <main>
         {
@@ -61,6 +67,7 @@ export default function App() {
                     currentNote={findCurrentNote()}
                     setCurrentNoteId={setCurrentNoteId}
                     newNote={createNewNote}
+                    deleteNote={deleteNote}
                 />
                 {
                     currentNoteId && 

@@ -28,20 +28,37 @@ function setYouTubeTitle(title) {
     }
 }
 
+function incrementViewCount() {
+    return {
+        type: "INCREMENT_VIEW_COUNT"
+    }
+}
+
+function upvoteVideo() {
+    return {
+        type: "UPVOTE_VIDEO"
+    }
+}
+
+function downvoteVideo() {
+    return {
+        type: "DOWNVOTE_VIDEO"
+    }
+}
+
 const initialState = {
     count: 0,
     favoriteThings: [],
-    youtubeVideo: {
+    youTubeVideo: {
         title: "",
-        viewCount: 0
+        viewCount: 0,
+        votes: {
+            up: 0,
+            down: 0
+        }
     }
 }
 console.log(initialState)
-
-/**
- * Challenge:
- * Implement an action creator and reducer case to handle setting the title of our YouTube video
- */
 
 function reducer(state = initialState, action) {
     switch(action.type) {
@@ -64,12 +81,42 @@ function reducer(state = initialState, action) {
                 favoriteThings: updatedArr
             }
         }
+        case "INCREMENT_VIEW_COUNT":
+            return {
+                ...state,
+                youTubeVideo: {
+                    ...state.youTubeVideo,
+                    viewCount: state.youTubeVideo.viewCount + 1
+                }
+            }
         case "SET_YOUTUBE_TITLE":
             return {
                 ...state,
-                youtubeVideo: {
-                    ...state.youtubeVideo,
+                youTubeVideo: {
+                    ...state.youTubeVideo,
                     title: action.payload
+                }
+            }
+        case "UPVOTE_VIDEO":
+            return {
+                ...state,
+                youTubeVideo: {
+                    ...state.youTubeVideo,
+                    votes: {
+                        ...state.youTubeVideo.votes,
+                        up: state.youTubeVideo.votes.up + 1
+                    }
+                }
+            }
+        case "DOWNVOTE_VIDEO":
+            return {
+                ...state,
+                youTubeVideo: {
+                    ...state.youTubeVideo,
+                    votes: {
+                        ...state.youTubeVideo.votes,
+                        down: state.youTubeVideo.votes.down + 1
+                    }
                 }
             }
         default:
@@ -78,8 +125,8 @@ function reducer(state = initialState, action) {
 }
 
 const store = redux.createStore(reducer)
+
 store.subscribe(() => {
     console.log(store.getState())
 })
 
-store.dispatch(setYouTubeTitle("Learn Redux"))
